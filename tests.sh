@@ -31,6 +31,12 @@ team_3_id=$(curl -s -XPOST localhost:8080/api/v1/teams \
   -d '{"name": "team-3"}' | jq -r '.teamId')
 assert_not_empty "$team_3_id" "team_3_id"
 
+# empty team-4
+team_4_id=$(curl -s -XPOST localhost:8080/api/v1/teams \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "team-4"}' | jq -r '.teamId')
+assert_not_empty "$team_4_id" "team_4_id"
+
 echo "# list teams"
 curl -s localhost:8080/api/v1/teams | jq
 pause
@@ -50,6 +56,11 @@ user_3_id=$(curl -s -XPOST localhost:8080/api/v1/users \
   -H 'Content-Type: application/json' \
   -d '{"name": "user-3", "email": "user-3@example.com"}' | jq -r '.userId')
 assert_not_empty "$user_3_id" "user_3_id"
+
+user_4_id=$(curl -s -XPOST localhost:8080/api/v1/users \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "user-4", "email": "user-4@example.com"}' | jq -r '.userId')
+assert_not_empty "$user_4_id" "user_4_id"
 
 echo "# list users"
 curl -s localhost:8080/api/v1/users | jq
