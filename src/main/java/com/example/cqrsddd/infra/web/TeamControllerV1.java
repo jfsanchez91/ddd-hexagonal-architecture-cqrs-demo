@@ -1,14 +1,17 @@
 package com.example.cqrsddd.infra.web;
 
+import com.example.cqrsddd.application.port.input.AddUserToTeamUseCase;
 import com.example.cqrsddd.application.port.input.CreateTeamUseCase;
 import com.example.cqrsddd.application.port.input.FindTeamByIdWithUserViewQuery;
 import com.example.cqrsddd.application.port.input.ListTeamsQuery;
 import com.example.cqrsddd.domain.TeamId;
+import com.example.cqrsddd.domain.UserId;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Produces;
 import io.micronaut.serde.annotation.Serdeable;
@@ -27,6 +30,7 @@ class TeamControllerV1 {
     private final ListTeamsQuery listTeamsQuery;
     private final FindTeamByIdWithUserViewQuery findTeamByIdWithUserViewQuery;
     private final CreateTeamUseCase createTeamUseCase;
+    private final AddUserToTeamUseCase addUserToTeamUseCase;
 
     @Get
     Collection<TeamDto> list() {
@@ -36,7 +40,7 @@ class TeamControllerV1 {
     }
 
     @Get("/{id}")
-    Optional<TeamWithUserViewDto> findWithUserView(UUID id) {
+    Optional<TeamWithUserViewDto> findWithUserView(@PathVariable UUID id) {
         final var query = FindTeamByIdWithUserViewQuery.Query.builder()
             .teamId(TeamId.of(id))
             .build();
@@ -53,6 +57,22 @@ class TeamControllerV1 {
         return CreateTeamResponse.builder()
             .teamId(teamId.value())
             .name(newTeam.name)
+            .build();
+    }
+
+    @Post("/{id}/users")
+    @Consumes(MediaType.APPLICATION_JSON)
+    AddUserToTeamResponse addUserToTeam(@PathVariable UUID id, @Body AddUserToTeamRequest request) {
+        final var command = AddUserToTeamUseCase.AddUserToTeamCommand.builder()
+            .teamId(TeamId.of(id))
+            .userId(UserId.of(request.userId()))
+            .alias(request.alias)
+            .build();
+        addUserToTeamUseCase.execute(command);
+        return AddUserToTeamResponse.builder()
+            .teamId(id)
+            .userId(request.userId)
+            .alias(request.alias)
             .build();
     }
 
@@ -132,6 +152,23 @@ class TeamControllerV1 {
     record CreateTeamResponse(
         UUID teamId,
         String name
+    ) {
+    }
+
+    @Builder
+    @Serdeable
+    record AddUserToTeamRequest(
+        UUID userId,
+        String alias
+    ) {
+    }
+
+    @Builder
+    @Serdeable
+    record AddUserToTeamResponse(
+        UUID teamId,
+        UUID userId,
+        String alias
     ) {
     }
 }
