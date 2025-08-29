@@ -2,7 +2,7 @@ package com.example.cqrsddd.application.service;
 
 import com.example.cqrsddd.application.port.input.ListTeamsQuery;
 import com.example.cqrsddd.application.port.output.ListTeamsPort;
-import io.micronaut.transaction.annotation.Transactional;
+import com.example.cqrsddd.application.port.output.TransactionManagementPort;
 import jakarta.inject.Singleton;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class ListTeamsQueryImpl implements ListTeamsQuery {
     private final ListTeamsPort port;
+    private final TransactionManagementPort transactionManagement;
 
     @Override
-    @Transactional(readOnly = true)
     public Collection<Projection> execute(Query query) {
-        return port.execute(query);
+        return transactionManagement.executeRead(() -> port.execute(query));
     }
 }

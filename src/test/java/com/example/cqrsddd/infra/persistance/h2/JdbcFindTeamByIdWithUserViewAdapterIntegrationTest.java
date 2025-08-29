@@ -1,4 +1,4 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.application.port.input.FindTeamByIdWithUserViewQuery.Query;
 import com.example.cqrsddd.application.port.output.FindTeamByIdPort;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest
+@MicronautTest(environments = "h2")
 class JdbcFindTeamByIdWithUserViewAdapterIntegrationTest {
     @Inject
     JdbcFindTeamByIdWithUserViewAdapter adapter;

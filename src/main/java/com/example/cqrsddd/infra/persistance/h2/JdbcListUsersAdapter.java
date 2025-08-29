@@ -1,9 +1,10 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.application.port.input.ListUsersQuery;
 import com.example.cqrsddd.application.port.output.ListUsersPort;
 import com.example.cqrsddd.domain.TeamId;
 import com.example.cqrsddd.domain.UserId;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.data.annotation.Query;
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
+@Requires(env = "h2")
 @RequiredArgsConstructor
 class JdbcListUsersAdapter implements ListUsersPort {
     private final QueryRepository queryRepository;

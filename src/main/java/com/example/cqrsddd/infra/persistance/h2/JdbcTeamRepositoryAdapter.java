@@ -1,10 +1,11 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.application.port.output.FindTeamByIdPort;
 import com.example.cqrsddd.application.port.output.SaveTeamPort;
 import com.example.cqrsddd.domain.Team;
 import com.example.cqrsddd.domain.TeamId;
 import com.example.cqrsddd.domain.UserId;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import java.util.Collections;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
+@Requires(env = "h2")
 @RequiredArgsConstructor
 class JdbcTeamRepositoryAdapter implements FindTeamByIdPort, SaveTeamPort {
     private final JdbcTeamRepository teamRepository;

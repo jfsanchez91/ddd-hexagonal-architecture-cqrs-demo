@@ -1,4 +1,4 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;

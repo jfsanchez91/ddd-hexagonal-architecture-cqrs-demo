@@ -1,4 +1,4 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.domain.Team;
 import com.example.cqrsddd.domain.TeamId;
@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
-@MicronautTest
+@MicronautTest(environments = "h2")
 class JdbcTeamRepositoryAdapterIntegrationTest {
     @Inject
     private JdbcTeamRepositoryAdapter adapter;

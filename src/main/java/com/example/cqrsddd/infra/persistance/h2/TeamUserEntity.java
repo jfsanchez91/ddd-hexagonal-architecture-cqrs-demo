@@ -1,4 +1,4 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.domain.TeamId;
 import com.example.cqrsddd.domain.UserId;

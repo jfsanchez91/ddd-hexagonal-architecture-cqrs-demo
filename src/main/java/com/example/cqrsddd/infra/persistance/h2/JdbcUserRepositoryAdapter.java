@@ -1,15 +1,17 @@
-package com.example.cqrsddd.infra.persistance;
+package com.example.cqrsddd.infra.persistance.h2;
 
 import com.example.cqrsddd.application.port.output.FindUserByIdPort;
 import com.example.cqrsddd.application.port.output.SaveUserPort;
 import com.example.cqrsddd.domain.User;
 import com.example.cqrsddd.domain.UserId;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import java.util.Collection;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
 @Singleton
+@Requires(env = "h2")
 @RequiredArgsConstructor
 class JdbcUserRepositoryAdapter implements FindUserByIdPort, SaveUserPort {
     private final JdbcUserRepository repository;
